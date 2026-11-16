@@ -44,6 +44,11 @@
 // #define FLOOR_NEG(X)		((X-(int)(X)) < 0 ? (int)(X-1) : (int)(X))
 // #define FLOOR(X)		( ((X) > 0) ? FLOOR_POS(X) : FLOOR_NEG(X) )
 
+/* Kernel >= 6.6.144 (android15-6.6-lts) already provides MIN/MAX,
+ * undef them first so this local definition does not trip -Werror.
+ */
+#undef MIN
+#undef MAX
 #define MIN(X,Y)		(((X) > (Y)) ? (Y) : (X))
 #define MAX(X,Y)		(((X) > (Y)) ? (X) : (Y))
 #define ABS(X)			(((X) > 0) ? (X) : -(X))
