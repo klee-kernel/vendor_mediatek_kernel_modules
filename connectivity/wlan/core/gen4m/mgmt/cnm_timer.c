@@ -485,7 +485,8 @@ void cnmTimerStartTimer(struct ADAPTER *prAdapter, struct TIMER *prTimer,
 	rExpiredSysTime = rCurSysTime + rTimeoutSystime;
 
 	/* Check if root timer expired but not timeout. */
-	if (TIME_BEFORE(prRootTimer->rNextExpiredSysTime, rCurSysTime) &&
+	if (!LINK_IS_EMPTY(prTimerList) &&
+		TIME_BEFORE(prRootTimer->rNextExpiredSysTime, rCurSysTime) &&
 		!KAL_TEST_BIT(GLUE_FLAG_TIMEOUT_BIT,
 				       prAdapter->prGlueInfo->ulFlag)) {
 		fgInvalidTime = TRUE;
