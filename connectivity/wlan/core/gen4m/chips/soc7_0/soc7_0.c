@@ -2854,7 +2854,7 @@ static int soc7_0_CheckBusHang(void *adapter, uint8_t ucWfResetEnable)
 			wf_ioremap_read(CONN_HOST_CSR_TOP_WF_ON_MONFLG_OUT_ADDR,
 				&u4Value);
 
-			if (u4Value & 0x0000001f != 0x00000007) {
+			if ((u4Value & 0x0000001f) != 0x00000007) {
 				DBGLOG(HAL, ERROR, "0x1802_362C[0]=1'b1\n");
 				DBGLOG(HAL, ERROR, "0x1806_0B10=0x%x\n",
 					u4Value);

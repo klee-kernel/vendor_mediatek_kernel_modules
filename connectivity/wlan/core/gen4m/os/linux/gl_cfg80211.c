@@ -8543,6 +8543,11 @@ int mtk_cfg_suspend(struct wiphy *wiphy,
 		return -EFAULT;
 	}
 
+	if (kalIsResetting() || kalIsResetOnEnd()) {
+		DBGLOG(REQ, WARN, "Wi-Fi reset in progress; abort suspend\n");
+		return -EBUSY;
+	}
+
 	if (!wlanIsDriverReady(prGlueInfo,
 		(WLAN_DRV_READY_CHECK_RESET | WLAN_DRV_READY_CHECK_WLAN_ON))) {
 		DBGLOG(REQ, WARN, "driver is not ready\n");
