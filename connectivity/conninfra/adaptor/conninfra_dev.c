@@ -314,8 +314,9 @@ int conn_adaptor_dev_fb_notifier_callback(struct notifier_block *self, unsigned 
 		pr_info("@@@@@@@@@@ Conninfra enter UNBLANK @@@@@@@@@@@@@@\n");
 		schedule_work(&g_pwr_on_off_work);
 	} else if (*data == MTK_DISP_BLANK_POWERDOWN) {
-		atomic_set(&g_es_lr_flag_for_blank, 0);
-		pr_info("@@@@@@@@@@ Conninfra enter early POWERDOWN @@@@@@@@@@@@@@\n");
+		/* Keep the shared Wi-Fi/BT chip powered while the display is off. */
+		atomic_set(&g_es_lr_flag_for_blank, 1);
+		pr_info("@@@@@@@@@@ Conninfra skip early POWERDOWN @@@@@@@@@@@@@@\n");
 		schedule_work(&g_pwr_on_off_work);
 	}
 
