@@ -14347,6 +14347,18 @@ int priv_driver_set_suspend_mode(struct net_device *prNetDev,
 			return 0;
 		}
 
+		/* The combo chip stays powered while the display is blank. Do not
+		 * push the Wi-Fi firmware into suspend mode while the interface is
+		 * connected; that path can wedge the firmware and hard-hang the
+		 * device during screen-off streaming.
+		 */
+		if (fgEnable && netif_carrier_ok(prNetDev)) {
+			DBGLOG(REQ, INFO,
+			       "%s: Keep Wi-Fi awake while link is active\n",
+			       __func__);
+			return 0;
+		}
+
 		DBGLOG(REQ, INFO, "%s: Set suspend mode [%u]\n", __func__,
 		       fgEnable);
 
