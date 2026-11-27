@@ -418,10 +418,14 @@ static ssize_t BT_read(struct file *filp, char __user *buf, size_t count, loff_t
 	}
 
 	if (copy_to_user(buf, i_buf, retval)) {
-		hw_err_retry = 0;
 		retval = -EFAULT;
 		if (rstflag == CHIP_RESET_NOTIFIED)
 			rstflag = CHIP_RESET_END;
+	} else if (retval > 0) {
+		/* RX data proves the read path is alive; only consecutive
+		 * no-data reads should count toward the hardware-error watchdog.
+		 */
+		hw_err_retry = 0;
 	}
 
 OUT:
