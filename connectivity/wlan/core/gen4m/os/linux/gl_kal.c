@@ -15020,7 +15020,7 @@ void kal_napi_synchronize(struct napi_struct *n)
 				MSEC_TO_SYSTIME(3 * MSEC_PER_SEC)) &&
 			    test_bit(NAPI_STATE_SCHED, &n->state)) {
 				clear_bit(NAPI_STATE_SCHED, &n->state);
-				clear_bit(NAPIF_STATE_NPSVC, &n->state);
+				clear_bit(NAPI_STATE_NPSVC, &n->state);
 				DBGLOG(RX, WARN,
 					"RX NAPI synchronize timeout:%lu, reset state:0x%03x->0x%03x,\n",
 					(last - now) ?
