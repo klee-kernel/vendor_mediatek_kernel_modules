@@ -1751,6 +1751,7 @@ static int wf_pwr_on_consys_mcu(struct ADAPTER *prAdapter)
 static int wf_pwr_off_consys_mcu(struct ADAPTER *prAdapter)
 {
 #define MAX_WAIT_COREDUMP_COUNT 10
+#define MAX_WAIT_COREDUMP_ABORT_COUNT 50
 
 	int ret = 0;
 	int check;
@@ -1771,6 +1772,12 @@ static int wf_pwr_off_consys_mcu(struct ADAPTER *prAdapter)
 			DBGLOG(INIT, WARN,
 				"Coredump spend long time, retryCount = %d\n",
 				retryCount);
+		}
+		if (retryCount >= MAX_WAIT_COREDUMP_ABORT_COUNT) {
+			DBGLOG(INIT, WARN,
+			       "Give up waiting for coredump in MCU power off path, retryCount = %d\n",
+			       retryCount);
+			break;
 		}
 	}
 #endif

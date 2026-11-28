@@ -1750,6 +1750,7 @@ uint32_t wlanAdapterStop(struct ADAPTER *prAdapter,
 		const u_int8_t bAtResetFlow)
 {
 #define MAX_WAIT_COREDUMP_COUNT 30
+#define MAX_WAIT_COREDUMP_ABORT_COUNT 50
 
 	uint32_t u4Status = WLAN_STATUS_SUCCESS;
 
@@ -1774,6 +1775,12 @@ uint32_t wlanAdapterStop(struct ADAPTER *prAdapter,
 					DBGLOG(INIT, WARN,
 						"Coredump spend long time, retryCount = %d\n",
 						u4RetryCount);
+				}
+				if (u4RetryCount >= MAX_WAIT_COREDUMP_ABORT_COUNT) {
+					DBGLOG(INIT, WARN,
+					       "Give up waiting for coredump in power off path, retryCount = %d\n",
+					       u4RetryCount);
+					break;
 				}
 				kalMsleep(100);
 				u4RetryCount++;
